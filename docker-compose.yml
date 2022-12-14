@@ -12,11 +12,11 @@ services:
     ports:
       - 8089:8089
     environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgressqldb:5432/dsk
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgressqldb:5432/dsk
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 123
-#      SPRING_DATASOURCE_DB: dsk
-#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_DATASOURCE_DB: dsk
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     networks:
       - dskbinikorback
     volumes:
