@@ -44,7 +44,6 @@ services:
 
 volumes:
   postgres_db:
-#  uploads:
 
 networks:
   dskbinikorback:
