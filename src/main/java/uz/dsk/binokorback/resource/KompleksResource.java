@@ -59,6 +59,7 @@ public class KompleksResource {
                                                      @RequestParam("file0") MultipartFile file0,
                                                      @RequestParam("file1") MultipartFile file1) {
 
+        log.info(id);
 
         Kompleks kompleks = kompleksService.getById(id);
         String filetype = file.getOriginalFilename();
@@ -73,16 +74,16 @@ public class KompleksResource {
 
         try {
             if (!filetype.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file, kompleks.getMainimagepath(), "house"));
+                ResponseEntity.ok(fileService.storeFile(file, kompleks.getMainimagepath(), "uploads"));
                 ans = true;
             }
             if (!filetype0.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file0, kompleks.getMainimagepathfirst(), "house"));
+                ResponseEntity.ok(fileService.storeFile(file0, kompleks.getMainimagepathfirst(), "uploads"));
                 ans = true;
             }
 
             if (!filetype1.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file1, kompleks.getMainimagepathsecond(), "house"));
+                ResponseEntity.ok(fileService.storeFile(file1, kompleks.getMainimagepathsecond(), "uploads"));
                 ans = true;
             }
             if (ans) {
