@@ -20,7 +20,7 @@ services:
     networks:
       - dskbinikorback
     volumes:
-      - uploads:/Users/akbardadashev/Documents/GitHub/SpringProjects/dskbinokorback/uploads:/var/lib/public/images
+      - ./uploads:/app
   postgressqldb:
     container_name: postgres
     image: postgres:14-alpine
@@ -44,7 +44,7 @@ services:
 
 volumes:
   postgres_db:
-  uploads:
+#  uploads:
 
 networks:
   dskbinikorback:

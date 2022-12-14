@@ -64,21 +64,25 @@ public class KompleksResource {
         String filetype = file.getOriginalFilename();
         String filetype0 = file0.getOriginalFilename();
         String filetype1 = file1.getOriginalFilename();
+        kompleks.setMainimagepath(kompleks.getId() + "-1." + filetype.substring(filetype.lastIndexOf(".") +1));
+        kompleks.setMainimagepathfirst(kompleks.getId() + "-2." + filetype0.substring(filetype0.lastIndexOf(".") +1));
+        kompleks.setMainimagepathsecond(kompleks.getId() + "-3." + filetype1.substring(filetype1.lastIndexOf(".") +1));
 
+        kompleksService.save(kompleks);
         boolean ans = false;
 
         try {
             if (!filetype.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file, filetype, "house"));
+                ResponseEntity.ok(fileService.storeFile(file, kompleks.getMainimagepath(), "house"));
                 ans = true;
             }
             if (!filetype0.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file0, filetype0, "house"));
+                ResponseEntity.ok(fileService.storeFile(file0, kompleks.getMainimagepathfirst(), "house"));
                 ans = true;
             }
 
             if (!filetype1.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file1, filetype1, "house"));
+                ResponseEntity.ok(fileService.storeFile(file1, kompleks.getMainimagepathsecond(), "house"));
                 ans = true;
             }
             if (ans) {
@@ -97,7 +101,7 @@ public class KompleksResource {
     @GetMapping("download/house/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) throws IOException {
 
-        Resource fileResource = fileService.getFile(filename, "models");
+        Resource fileResource = fileService.getFile(filename, "house");
 
         String contentType = null;
 
