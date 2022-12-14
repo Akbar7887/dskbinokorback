@@ -1,0 +1,44 @@
+version: "3.1"
+
+services:
+  app:
+    container_name: dsk_jar
+    image: dskbinokor
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgressqldb
+    ports:
+      - 8089:8089
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgressqldb:5432/dsk
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123
+      SPRING_DATASOURCE_DB: dsk
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    networks:
+      - dskbinikorback
+  postgressqldb:
+    container_name: postgres
+    image: postgres:14-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: dsk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    networks:
+      - dskbinikorback
+  adminer:
+    image: adminer
+    networks:
+      - dskbinikorback
+    ports:
+      - 8085:8080
+
+
+networks:
+  dskbinikorback:
+    driver: bridge
