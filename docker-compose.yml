@@ -20,7 +20,7 @@ services:
     networks:
       - dskbinikorback
     volumes:
-      - ./uploads:/app
+      - ./uploads:/var/lib/docker/volumes/uploads
   postgressqldb:
     container_name: postgres
     image: postgres:14-alpine
