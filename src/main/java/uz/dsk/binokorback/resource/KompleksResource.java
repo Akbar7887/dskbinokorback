@@ -74,16 +74,16 @@ public class KompleksResource {
 
         try {
             if (!filetype.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file, kompleks.getMainimagepath(), "uploads"));
+                ResponseEntity.ok(fileService.storeFile(file, kompleks.getMainimagepath(), "house"));
                 ans = true;
             }
             if (!filetype0.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file0, kompleks.getMainimagepathfirst(), "uploads"));
+                ResponseEntity.ok(fileService.storeFile(file0, kompleks.getMainimagepathfirst(), "house"));
                 ans = true;
             }
 
             if (!filetype1.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file1, kompleks.getMainimagepathsecond(), "uploads"));
+                ResponseEntity.ok(fileService.storeFile(file1, kompleks.getMainimagepathsecond(), "house"));
                 ans = true;
             }
             if (ans) {
