@@ -34,16 +34,18 @@ public class FileService {
     public String storeFile(MultipartFile multipartFile, String fotofilename, String folder) {
 
         String filename = StringUtils.cleanPath(Objects.requireNonNull(fotofilename));
+        log.info(filename);
 
         try {
             filename = filename.substring(0, filename.lastIndexOf("."))
                     .replace(".", "") + "." + filename
                     .substring(filename.lastIndexOf(".") + 1);
-            Path targetLocation = fileStorageLocation.resolve( "/" + filename); //folder +
+            Path targetLocation = fileStorageLocation.resolve(filename); //folder +
 //            Files.write(targetLocation, bytes);
             Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             return targetLocation.toString();
         } catch (IOException e) {
+            log.error(e);
             throw new RuntimeException("Could not store file" + filename, e);
         }
     }
