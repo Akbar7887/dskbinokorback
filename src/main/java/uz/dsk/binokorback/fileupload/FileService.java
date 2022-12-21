@@ -53,7 +53,8 @@ public class FileService {
     public Resource getFile(String filename, String folder) {
         try {
             Path file = fileStorageLocation.resolve(folder + "-" + filename).normalize();
-            Resource resource = new UrlResource((file.toUri()));
+//            log.info("ggggg" + file);
+            Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
