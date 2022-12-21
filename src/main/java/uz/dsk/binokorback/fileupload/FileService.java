@@ -40,7 +40,7 @@ public class FileService {
             filename = filename.substring(0, filename.lastIndexOf("."))
                     .replace(".", "") + "." + filename
                     .substring(filename.lastIndexOf(".") + 1);
-            Path targetLocation = fileStorageLocation.resolve(folder +"/"+filename); //
+            Path targetLocation = fileStorageLocation.resolve(folder + "-" + filename); //
 //            Files.write(targetLocation, bytes);
             Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             return targetLocation.toString();
@@ -52,7 +52,7 @@ public class FileService {
 
     public Resource getFile(String filename, String folder) {
         try {
-            Path file = fileStorageLocation.resolve(folder + "/"+filename).normalize();
+            Path file = fileStorageLocation.resolve(folder + "-" + filename).normalize();
             Resource resource = new UrlResource((file.toUri()));
             if (resource.exists() || resource.isReadable()) {
                 return resource;
