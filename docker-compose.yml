@@ -4,6 +4,7 @@ services:
   app:
     container_name: dsk_jar
     image: dskbinokor
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,7 +21,7 @@ services:
     networks:
       - dskbinikorback
     volumes:
-      - ./uploads:/var/lib/docker/volumes/uploads
+      - uploads:/var/lib/uploads
   postgressqldb:
     container_name: postgres
     image: postgres:14-alpine
@@ -37,6 +38,7 @@ services:
       - postgres_db:/var/lib/postgresql/data
   adminer:
     image: adminer
+    restart: always
     networks:
       - dskbinikorback
     ports:
@@ -44,6 +46,8 @@ services:
 
 volumes:
   postgres_db:
+  uploads:
+    external: true
 
 networks:
   dskbinikorback:

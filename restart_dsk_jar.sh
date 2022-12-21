@@ -11,3 +11,5 @@ docker run -d --hostname dsk_jar_api.uz \
 	dsk_jar_api
 
 exit 0
+
+#

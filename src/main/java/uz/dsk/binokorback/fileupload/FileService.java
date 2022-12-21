@@ -40,7 +40,7 @@ public class FileService {
             filename = filename.substring(0, filename.lastIndexOf("."))
                     .replace(".", "") + "." + filename
                     .substring(filename.lastIndexOf(".") + 1);
-            Path targetLocation = fileStorageLocation.resolve(folder +"/"+filename); //
+            Path targetLocation = fileStorageLocation.resolve(filename); //folder +"/"+
 //            Files.write(targetLocation, bytes);
             Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             return targetLocation.toString();
