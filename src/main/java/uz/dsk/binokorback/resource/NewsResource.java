@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import static org.springframework.http.MediaType.parseMediaType;
 
 @Log4j2
 @RequestMapping("/news/")
@@ -51,83 +54,95 @@ public class NewsResource {
         return ResponseEntity.ok().body(newsService.remote(id));
     }
 
-//    @PostMapping(value = "upload", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-//    public ResponseEntity<?> uploadAndDownload(@RequestParam("id") String id, @RequestParam("file") MultipartFile file) {
-//
-//        News news = newsService.getById(id);
-//        String filetype = file.getOriginalFilename();
-//        news.setImagepath(news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1));
-//        newsService.save(news);
-//        try {
-//            if (fileService.uploadAndDownloadFile(file, "news", news.getImagepath())) {
-//                final ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(Paths.get(fileService
-//                        .getFileStorageLocation() + "/" + file.getOriginalFilename())));
-//
-//
-//                return ResponseEntity.status(HttpStatus.OK).contentLength(resource.contentLength()).body(resource);
-//            }
-//            return ResponseEntity.ok("Error while processing file");
-//        } catch (Exception e) {
-//            return ResponseEntity.ok("Error while processing file");
-//        }
-//    }
-//
-//
-//    @GetMapping("download/news/{filename:.+}")
-//    public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename) throws IOException {
-//
-//        Map map = fileService.DownloadFile(filename, "news");
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.IMAGE_PNG)
-//                .headers((HttpHeaders) map.get("headers"))
-//                .body(map.get("resource"));
-//
-//    }
+    @PostMapping(value = "upload")
+    public ResponseEntity<?> uploadAndDownload(@RequestParam("id") String id,
+                                               @RequestParam("file") MultipartFile file) {
+
+        News news = newsService.getById(id);
+        String filetype = file.getOriginalFilename();
+        news.setImagepath(news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1));
+        newsService.save(news);
+        try {
+
+            return ResponseEntity.ok(fileService.storeFile(file, news.getImagepath(), "news"));
+        } catch (Exception e) {
+            return ResponseEntity.ok("Error while processing file");
+        }
+    }
+
+
+    @GetMapping("download/news/{filename:.+}")
+    public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename,
+                                          HttpServletRequest request) throws IOException {
+
+        Resource fileResource = fileService.getFile(filename, "news");
+
+        String contentType = null;
+
+        try {
+            contentType = request.getServletContext().getMimeType(fileResource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            log.error("Could not determine file type.");
+        }
+
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                .body(fileResource);
+
+    }
 
 
 
-//    @GetMapping("download/imagenews/{filename:.+}")
-//    public ResponseEntity<?> imagenewsdownloadFile(@PathVariable("filename") String filename, HttpServletRequest request) {
-//        Map map = fileService.DownloadFile(filename, "imagenews");
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.IMAGE_PNG)
-//                .headers((HttpHeaders) map.get("headers"))
-//                .body(map.get("resource"));
-//
-//    }
+    @GetMapping("download/imagenews/{filename:.+}")
+    public ResponseEntity<?> imagenewsdownloadFile(@PathVariable("filename") String filename, HttpServletRequest request) {
+
+        Resource fileResource = fileService.getFile(filename, "imagenews");
+
+        String contentType = null;
+
+        try {
+            contentType = request.getServletContext().getMimeType(fileResource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            log.error("Could not determine file type.");
+        }
+
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                .body(fileResource);
+
+    }
 
 
-//    @PostMapping(value = "imagenewsupload",  produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-//    public ResponseEntity<?> imagenewsuploadFile(
-//            @RequestParam(value = "id") String id,
-//            @RequestParam("file") MultipartFile file) throws IOException {
-//
-//        News news = newsService.getById(id);
-//        String filetype = file.getOriginalFilename();
-//        Random random = new Random();
-//        int min = 0;
-//        int max = 10000;
-//        int randomNumber = random.nextInt(max + 1 - min) + min;
-//        String filename = String.valueOf(randomNumber) + "." + filetype.substring(filetype.lastIndexOf(".") + 1);
-//
-//        filename = filename.replace("'", "");
-//
-//        try {
-//            if (fileService.uploadAndDownloadFile(file, "imagenews", filename)) {
-//                final ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(Paths.get(fileService
-//                        .getFileStorageLocation() + "/" + file.getOriginalFilename())));
-//
-//                ImageNews imageNews = new ImageNews();
-//                imageNews.setImagepath(filename);
-//                news.addImage(imageNews);
-//                newsService.save(news);
-//                return ResponseEntity.status(HttpStatus.OK).contentLength(resource.contentLength()).body(resource);
-//            }
-//            return ResponseEntity.ok("Error while processing file");
-//        } catch (Exception e) {
-//            return ResponseEntity.ok("Error while processing file");
-//        }
-//    }
+    @PostMapping(value = "imagenewsupload")
+    public ResponseEntity<?> imagenewsuploadFile(
+            @RequestParam(value = "id") String id,
+            @RequestParam("file") MultipartFile file) throws IOException {
+
+        News news = newsService.getById(id);
+        String filetype = file.getOriginalFilename();
+        Random random = new Random();
+        int min = 0;
+        int max = 10000;
+        int randomNumber = random.nextInt(max + 1 - min) + min;
+        String filename = String.valueOf(randomNumber) + "." + filetype.substring(filetype.lastIndexOf(".") + 1);
+
+        filename = filename.replace("'", "");
+
+        try {
+
+            return ResponseEntity.ok(fileService.storeFile(file, news.getImagepath(), "imagenews"));
+        } catch (Exception e) {
+            return ResponseEntity.ok("Error while processing file");
+        }
+    }
 
 
 
