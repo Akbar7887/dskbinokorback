@@ -53,6 +53,7 @@ public class ImageCatalogResource {
             @RequestParam("file") MultipartFile file) {
 
         ImageCatalog imageCatalog = imageCatalogService.getById(id);
+        imageCatalog.setDescription(description);
         imageCatalogService.postwithImage(file.getOriginalFilename(), id, imageCatalog);
 
 
@@ -84,44 +85,7 @@ public class ImageCatalogResource {
 
     }
 
-//    @GetMapping("download/catalogs/{filename:.+}")
-//    public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) {
-//        Resource fileResource = fileService.getFile(filename, "catalogs");
-//
-//        String contentType = null;
-//
-//        try {
-//            contentType = request.getServletContext().getMimeType(fileResource.getFile().getAbsolutePath());
-//        } catch (IOException e) {
-//            log.error("Could not determine file type.");
-//        }
-//
-//        if (contentType == null) {
-//            contentType = "application/octet-stream";
-//        }
-//        return ResponseEntity.ok()
-//                .contentType(parseMediaType(contentType))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
-//                .body(fileResource);
-//    }
-//
-//    @PostMapping("imagecatalogupload")
-//    public ResponseEntity<?> uploadFile(
-//            @RequestParam(value = "id") String id,
-//            @RequestParam("description") String description,
-//            @RequestParam("file") MultipartFile multipartFile) throws IOException {
-//
-//        ImageCatalog imageCatalog = imageCatalogService.getById(id);
-//
-//        String filetype = multipartFile.getOriginalFilename();
-//        String filename = imageCatalog.getId() + "." + filetype.substring(filetype.lastIndexOf(".") + 1);
-//
-//        filename = filename.replace("'", "");
-//
-//        imageCatalogService.postwithImage(filename, id, imageCatalog);
-//
-//        return ResponseEntity.ok(fileService.storeFile(multipartFile, filename, "catalogs"));
-//    }
+
 
 //    @PutMapping("/webimage")
 //    public ResponseEntity<ImageData> webImage(@RequestParam("web") String web, @RequestParam("id") String id) {

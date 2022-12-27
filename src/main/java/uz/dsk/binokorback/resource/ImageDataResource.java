@@ -78,16 +78,6 @@ public class ImageDataResource {
             String filetype = file.getOriginalFilename();
             imageData.setImagepath(imageData.getId() + "." + filetype.substring(filetype.lastIndexOf(".") + 1));
             imageDataService.save(imageData, imageData.getDom().getId().toString());
-//            if (fileService.uploadAndDownloadFile(file, "images", imageData.getImagepath())) {
-//                final ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(Paths.get(fileService
-//                        .getFileStorageLocation() + "/" + file.getOriginalFilename())));
-//                //file.getOriginalFilename().f(0, file.getOriginalFilename())
-//
-//
-//                return ResponseEntity.status(HttpStatus.OK).contentLength(resource.contentLength()).body(resource);
-//            }
-//            return ResponseEntity.ok("Error while processing file");
-
             return ResponseEntity.ok(fileService.storeFile(file, imageData.getImagepath(), "images"));
 
         } catch (Exception e) {
@@ -97,7 +87,8 @@ public class ImageDataResource {
 
 
     @GetMapping("download/images/{filename:.+}")
-    public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) throws IOException {
+    public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename,
+                                          HttpServletRequest request) throws IOException {
 
 //        Map map = fileService.DownloadFile(filename, "images");
 //        return ResponseEntity.ok()

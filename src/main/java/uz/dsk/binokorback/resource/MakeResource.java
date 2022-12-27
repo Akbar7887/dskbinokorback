@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,11 +16,14 @@ import uz.dsk.binokorback.models.Make;
 import uz.dsk.binokorback.sevice.MakeService;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.http.MediaType.parseMediaType;
 
 @Log4j2
 @RestController
@@ -38,43 +42,46 @@ public class MakeResource {
     }
 
     @PostMapping("save")
-    private ResponseEntity<Make> save(@RequestBody  Make make) {
+    private ResponseEntity<Make> save(@RequestBody Make make) {
         return ResponseEntity.ok().body(makeService.save(make));
     }
 
-//    @PostMapping(value = "upload", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-//    public ResponseEntity<?> uploadAndDownload(@RequestParam("id") String id, @RequestParam("file") MultipartFile file) {
-//
-//        Make make = makeService.getById(id);
-//        String filetype = file.getOriginalFilename();
-//        make.setImagepath(make.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1));
-//        makeService.save(make);
-//        try {
-//            if (fileService.uploadAndDownloadFile(file, "makes", make.getImagepath())) {
-//                final ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(Paths.get(fileService
-//                        .getFileStorageLocation() + "/" + file.getOriginalFilename())));
-//
-//
-//                return ResponseEntity.status(HttpStatus.OK).contentLength(resource.contentLength()).body(resource);
-//            }
-//            return ResponseEntity.ok("Error while processing file");
-//        } catch (Exception e) {
-//            return ResponseEntity.ok("Error while processing file");
-//        }
-//    }
-//
-//
-//    @GetMapping("download/makes/{filename:.+}")
-//    public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename) throws IOException {
-//
-//        Map map = fileService.DownloadFile(filename, "makes");
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.IMAGE_PNG)
-//                .headers((HttpHeaders) map.get("headers"))
-//                .body(map.get("resource"));
-//
-//    }
+    @PostMapping(value = "upload")
+    public ResponseEntity<?> uploadAndDownload(@RequestParam("id") String id,
+                                               @RequestParam("file") MultipartFile file) {
+        try {
+
+            Make make = makeService.getById(id);
+            String filetype = file.getOriginalFilename();
+            make.setImagepath(make.getId() + "." + filetype.substring(filetype.lastIndexOf(".") + 1));
+            makeService.save(make);
+
+            return ResponseEntity.ok(fileService.storeFile(file, make.getImagepath(), "makes"));
+        } catch (Exception e) {
+            return ResponseEntity.ok("Error while processing file");
+        }
+    }
 
 
+    @GetMapping("download/makes/{filename:.+}")
+    public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) throws IOException {
 
+        Resource fileResource = fileService.getFile(filename, "makes");
+
+        String contentType = null;
+
+        try {
+            contentType = request.getServletContext().getMimeType(fileResource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            log.error("Could not determine file type.");
+        }
+
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                .body(fileResource);
+    }
 }
