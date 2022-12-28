@@ -95,6 +95,11 @@
             <version>6.1.6.Final</version>
             <type>pom</type>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.tomcat.embed</groupId>-->
+<!--            <artifactId>tomcat-embed-core</artifactId>-->
+<!--            <version>11.0.0-M1</version>-->
+<!--        </dependency>-->
 
     </dependencies>
     <build>
