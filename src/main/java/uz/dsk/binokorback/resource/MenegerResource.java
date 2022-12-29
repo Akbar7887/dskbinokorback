@@ -64,7 +64,7 @@ public class MenegerResource {
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename,
                                           HttpServletRequest request) throws IOException {
 
-        Resource fileResource = fileService.getFile(filename, "makes");
+        Resource fileResource = fileService.getFile(filename, "meneger");
 
         String contentType = null;
 

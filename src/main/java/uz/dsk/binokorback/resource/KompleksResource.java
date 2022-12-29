@@ -61,13 +61,22 @@ public class KompleksResource {
 
         log.info(id);
 
+        String filetype = "";
+        String filetype0 = "";
+        String filetype1 = "";
         Kompleks kompleks = kompleksService.getById(id);
-        String filetype = file.getOriginalFilename();
-        String filetype0 = file0.getOriginalFilename();
-        String filetype1 = file1.getOriginalFilename();
-        kompleks.setMainimagepath(kompleks.getId() + "-1." + filetype.substring(filetype.lastIndexOf(".") +1));
-        kompleks.setMainimagepathfirst(kompleks.getId() + "-2." + filetype0.substring(filetype0.lastIndexOf(".") +1));
-        kompleks.setMainimagepathsecond(kompleks.getId() + "-3." + filetype1.substring(filetype1.lastIndexOf(".") +1));
+        if (file != null) {
+            filetype = file.getOriginalFilename();
+            kompleks.setMainimagepath(kompleks.getId() + "-1." + filetype.substring(filetype.lastIndexOf(".") + 1));
+        }
+        if (file0 != null) {
+            filetype0 = file0.getOriginalFilename();
+            kompleks.setMainimagepathfirst(kompleks.getId() + "-2." + filetype0.substring(filetype0.lastIndexOf(".") + 1));
+        }
+        if (file1 != null) {
+            filetype1 = file1.getOriginalFilename();
+            kompleks.setMainimagepathsecond(kompleks.getId() + "-3." + filetype1.substring(filetype1.lastIndexOf(".") + 1));
+        }
 
         kompleksService.save(kompleks);
         boolean ans = false;
