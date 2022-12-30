@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface NewsRepo extends JpaRepository<News, Long> {
 
-    @Query("select n from News n where n.active=:active")
+    @Query("select n from News n where n.active=:active order by n.datacreate")
     List<News> getAllActive(@Param("active") Active active);
 }
