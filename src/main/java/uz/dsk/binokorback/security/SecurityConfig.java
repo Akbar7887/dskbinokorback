@@ -15,8 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import uz.dsk.binokorback.filter.CustomAuthenticationFilter;
 import uz.dsk.binokorback.filter.CustomAuthorizationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 
 @Configuration
@@ -40,29 +39,68 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers(
                 "/api/token/refresh/**",
-                "/login/**",
-                "/meneger/**",
-                "/catalog/**",
+                "/login",
+                "/meneger/get",
+                "/catalog/get",
                 "/imagecatalog/download/catalogs/*",
                 "/imagecatalog/get",
                 "/imagecatalog/save",
+                "/kompleks/get",
+                "/make/get",
+                "/house/get",
+                "/news/get",
+                "/job/get",
+                "/dom/get",
+                "/orderb/**",
+                "/ligthuser/get",
+                "/imagedata/get").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/api/users/**", "/login/**",
+                "/meneger/**",
+                "/catalog/**",
+                "/imagecatalog/download/catalogs/*",
+                "/imagecatalog/**",
+                "/imagecatalog/**",
                 "/kompleks/**",
                 "/make/**",
-                "/house/get",
-                "/api/les/**",
+                "/house/**",
                 "/news/**",
                 "/job/**",
                 "/dom/**",
                 "/orderb/**",
                 "/ligthuser/**",
-                "/imagedata/**").permitAll();
-//        http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLL_USER");
-        http.authorizeRequests().antMatchers(GET, "/api/users/**").hasAnyAuthority("ADMIN", "SUPER_ADMIN");
-//        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ADMIN");
-        http.authorizeRequests().antMatchers(GET, "/api/les/**").hasAnyAuthority("USER", "ADMIN");
-        http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ADMIN");
-//        http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLL_MENEGER");
-//        http.authorizeRequests().antMatchers(POST, ).permitAll();
+                "/imagedata/**").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(POST, "/api/user/save/**", "/api/token/refresh/**",
+                "/login/**",
+                "/meneger/**",
+                "/catalog/**",
+                "/imagecatalog/download/catalogs/*",
+                "/imagecatalog/**",
+                "/imagecatalog/**",
+                "/kompleks/**",
+                "/make/**",
+                "/house/**",
+                "/news/**",
+                "/job/**",
+                "/dom/**",
+                "/orderb/**",
+                "/ligthuser/**",
+                "/imagedata/**").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(PUT, "/api/user/save/**", "/api/token/refresh/**",
+                "/login/**",
+                "/meneger/**",
+                "/catalog/**",
+                "/imagecatalog/download/catalogs/*",
+                "/imagecatalog/**",
+                "/imagecatalog/**",
+                "/kompleks/**",
+                "/make/**",
+                "/house/**",
+                "/news/**",
+                "/job/**",
+                "/dom/**",
+                "/orderb/**",
+                "/ligthuser/**",
+                "/imagedata/**").hasAnyAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
