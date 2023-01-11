@@ -127,6 +127,7 @@ public class NewsResource {
             @RequestParam("file") MultipartFile file) throws IOException {
 
         News news = newsService.getById(id);
+
         String filetype = file.getOriginalFilename();
         Random random = new Random();
         int min = 0;
@@ -135,10 +136,15 @@ public class NewsResource {
         String filename = String.valueOf(randomNumber) + "." + filetype.substring(filetype.lastIndexOf(".") + 1);
 
         filename = filename.replace("'", "");
+        ImageNews imageNews = new ImageNews();
+        imageNews.setImagepath(filename);
+        news.addImage(imageNews);
+        newsService.save(news);
+
 
         try {
 
-            return ResponseEntity.ok(fileService.storeFile(file, news.getImagepath(), "imagenews"));
+            return ResponseEntity.ok(fileService.storeFile(file, filename, "imagenews"));
         } catch (Exception e) {
             return ResponseEntity.ok("Error while processing file");
         }
