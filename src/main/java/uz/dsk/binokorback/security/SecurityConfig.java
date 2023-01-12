@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/orderb/**",
                 "/ligthuser/get",
                 "/imagedata/get", "/imagedata/download/imagedata/*"
-                ).permitAll();
+        ).permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/users/**", "/login/**",
                 "/meneger/**",
                 "/catalog/**",
