@@ -43,8 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/meneger/get", "/meneger/download/meneger/*",
                 "/catalog/get",
                 "/imagecatalog/download/catalogs/*",
-                "/imagecatalog/get",
-                "/imagecatalog/save",
+                "/imagecatalog/get", "/imagecatalog/save",
                 "/kompleks/get", "/kompleks/download/**",
                 "/make/get", "/make/download/makes/*",
                 "/news/get", "/news/download/news/*", "/news/download/imagenews/*",
@@ -52,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/dom/get",
                 "/orderb/**",
                 "/ligthuser/get",
-                "/imagedata/get", "/imagedata/download/imagedata/*"
+                "/imagedata/get", "/imagedata/download/images/*"
         ).permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/users/**", "/login/**",
                 "/meneger/**",
