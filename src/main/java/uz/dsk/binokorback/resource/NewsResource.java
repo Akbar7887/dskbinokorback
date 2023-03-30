@@ -68,7 +68,7 @@ public class NewsResource {
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename,
                                           HttpServletRequest request) throws IOException {
 
-        Resource fileResource = fileService.getFile(filename, "videonews");
+        Resource fileResource = fileService.getFile(filename, "news");
 
         String contentType = null;
 
@@ -155,14 +155,30 @@ public class NewsResource {
             return ResponseEntity.ok("Error while processing file");
         }
     }
+    @GetMapping("download/newsvideo/{filename:.+}")
+    public ResponseEntity<?> downloadVideoFile(@PathVariable("filename") String filename,
+                                          HttpServletRequest request) throws IOException {
 
-//    @PostMapping("uploadvideo")
-//    public void uploadVideo(@RequestParam("file") MultipartFile file) {
-//
-//        News news = null;
-//
-//        news = newsService.saveFile(file);
-//    }
+        Resource fileResource = fileService.getFile(filename, "videonews");
+
+        String contentType = null;
+
+        try {
+            contentType = request.getServletContext().getMimeType(fileResource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            log.error("Could not determine file type.");
+        }
+
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
+                .body(fileResource);
+
+
+    }
 
 
 }
