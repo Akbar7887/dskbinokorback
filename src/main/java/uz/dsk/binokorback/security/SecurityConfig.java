@@ -39,14 +39,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers(
                 "/api/token/refresh/**",
-                "/login",
+                "/login", "/login/**",
                 "/meneger/get", "/meneger/download/meneger/*",
                 "/catalog/get",
                 "/imagecatalog/download/catalogs/*",
                 "/imagecatalog/get", "/imagecatalog/save",
                 "/kompleks/get", "/kompleks/download/**",
                 "/make/get", "/make/download/makes/*",
-                "/news/get", "/news/download/news/*", "/news/download/imagenews/*",
+                "/news/get", "/news/download/news/*",
+                "/news/download/imagenews/*",
+                "/news/**",
                 "/job/get",
                 "/dom/get",
                 "/orderb/**",

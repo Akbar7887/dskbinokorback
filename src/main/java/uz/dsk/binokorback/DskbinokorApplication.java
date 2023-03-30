@@ -14,10 +14,7 @@ import uz.dsk.binokorback.fileupload.FileStorageProperties;
         FileStorageProperties.class
 })
 public class DskbinokorApplication {
-
     public static void main(String[] args) {
-
-
         SpringApplication.run(DskbinokorApplication.class, args);
     }
 

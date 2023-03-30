@@ -41,6 +41,8 @@ public class News {
     @JsonManagedReference
     private List<ImageNews> imageNewsList = new ArrayList<>();
 
+    private String videopath;
+
     public void addImage(ImageNews imageNews) {
         if (!imageNewsList.contains(imageNews)) {
             this.imageNewsList.add(imageNews);

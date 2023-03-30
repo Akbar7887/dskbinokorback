@@ -4,11 +4,8 @@ package uz.dsk.binokorback.resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,13 +14,9 @@ import uz.dsk.binokorback.models.ImageNews;
 import uz.dsk.binokorback.models.News;
 import uz.dsk.binokorback.sevice.NewsService;
 
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import static org.springframework.http.MediaType.parseMediaType;
@@ -50,7 +43,7 @@ public class NewsResource {
     }
 
     @PutMapping("remove")
-    private ResponseEntity<News> remove(@RequestParam("id") String id){
+    private ResponseEntity<News> remove(@RequestParam("id") String id) {
         return ResponseEntity.ok().body(newsService.remote(id));
     }
 
@@ -60,7 +53,7 @@ public class NewsResource {
 
         News news = newsService.getById(id);
         String filetype = file.getOriginalFilename();
-        news.setImagepath(news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1));
+        news.setImagepath(news.getId() + "." + filetype.substring(filetype.lastIndexOf(".") + 1));
         newsService.save(news);
         try {
 
@@ -75,7 +68,7 @@ public class NewsResource {
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename,
                                           HttpServletRequest request) throws IOException {
 
-        Resource fileResource = fileService.getFile(filename, "news");
+        Resource fileResource = fileService.getFile(filename, "videonews");
 
         String contentType = null;
 
@@ -93,8 +86,8 @@ public class NewsResource {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
                 .body(fileResource);
 
-    }
 
+    }
 
 
     @GetMapping("download/imagenews/{filename:.+}")
@@ -150,8 +143,39 @@ public class NewsResource {
         }
     }
 
+    @PostMapping(value = "videoupload")
+    public ResponseEntity<?> videouploadFile(
+            @RequestParam(value = "id") String id,
+            @RequestParam("file") MultipartFile file) throws IOException {
 
+        News news = newsService.getById(id);
 
+        String filetype = file.getOriginalFilename();
+        Random random = new Random();
+        int min = 0;
+        int max = 10000;
+        int randomNumber = random.nextInt(max + 1 - min) + min;
+        String filename = String.valueOf(randomNumber) + "." + filetype.substring(filetype.lastIndexOf(".") + 1);
+
+        filename = filename.replace("'", "");
+        news.setVideopath(filename);
+        newsService.save(news);
+
+        try {
+
+            return ResponseEntity.ok(fileService.storeFile(file, filename, "videonews"));
+        } catch (Exception e) {
+            return ResponseEntity.ok("Error while processing file");
+        }
+    }
+
+//    @PostMapping("uploadvideo")
+//    public void uploadVideo(@RequestParam("file") MultipartFile file) {
+//
+//        News news = null;
+//
+//        news = newsService.saveFile(file);
+//    }
 
 
 }

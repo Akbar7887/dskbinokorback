@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import uz.dsk.binokorback.models.Active;
 import uz.dsk.binokorback.models.News;
 import uz.dsk.binokorback.repo.NewsRepo;
@@ -49,4 +50,10 @@ public class NewsService {
             return null;
         }
     }
+
+
+//    public News saveFile(MultipartFile file) {
+//
+//
+//    }
 }
