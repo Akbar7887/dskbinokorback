@@ -121,23 +121,17 @@ public class NewsResource {
 
         News news = newsService.getById(id);
 
-        String filetype = file.getOriginalFilename();
-        Random random = new Random();
-        int min = 0;
-        int max = 10000;
-        int randomNumber = random.nextInt(max + 1 - min) + min;
-        String filename = String.valueOf(randomNumber) + "." + filetype.substring(filetype.lastIndexOf(".") + 1);
+        String filename = fileService.getType(file);
 
-        filename = filename.replace("'", "");
         ImageNews imageNews = new ImageNews();
-        imageNews.setImagepath(filename);
+        imageNews.setImagepath(imageNews.getId() + filename);
         news.addImage(imageNews);
         newsService.save(news);
 
 
         try {
 
-            return ResponseEntity.ok(fileService.storeFile(file, filename, "imagenews"));
+            return ResponseEntity.ok(fileService.storeFile(file, imageNews.getImagepath(), "imagenews"));
         } catch (Exception e) {
             return ResponseEntity.ok("Error while processing file");
         }
@@ -150,20 +144,13 @@ public class NewsResource {
 
         News news = newsService.getById(id);
 
-        String filetype = file.getOriginalFilename();
-        Random random = new Random();
-        int min = 0;
-        int max = 10000;
-        int randomNumber = random.nextInt(max + 1 - min) + min;
-        String filename = String.valueOf(randomNumber) + "." + filetype.substring(filetype.lastIndexOf(".") + 1);
-
-        filename = filename.replace("'", "");
-        news.setVideopath(filename);
+        String filename = fileService.getType(file);
+        news.setVideopath(news.getId() + filename);
         newsService.save(news);
 
         try {
 
-            return ResponseEntity.ok(fileService.storeFile(file, filename, "videonews"));
+            return ResponseEntity.ok(fileService.storeFile(file, news.getVideopath(), "videonews"));
         } catch (Exception e) {
             return ResponseEntity.ok("Error while processing file");
         }
