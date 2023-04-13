@@ -1,9 +1,11 @@
 FROM openjdk:11
+EXPOSE 8089
 
 
 COPY target/dskbinokor.jar dskbinokor.jar
+#ADD target/dskbinokor.jar dskbinokor.jar
+#ADD entrypoint.sh entrypoint.sh
 
-EXPOSE 8089
 
 ENTRYPOINT ["java","-jar","dskbinokor.jar"]
-
+#ENTRYPOINT ["sh", "/entrypoint.sh"]
