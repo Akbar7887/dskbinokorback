@@ -113,6 +113,7 @@ public class KompleksResource {
 
         Resource fileResource = fileService.getFile(filename, "house");
 
+
         String contentType = null;
 
         try {
@@ -129,6 +130,11 @@ public class KompleksResource {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
                 .body(fileResource);
 
+    }
+
+    @DeleteMapping(value = "removeimage")
+    public Boolean removeImage(@RequestParam("filename") String filename) {
+        return fileService.delete("house-" + filename);
     }
 
 
