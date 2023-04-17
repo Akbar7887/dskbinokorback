@@ -15,6 +15,7 @@ import uz.dsk.binokorback.sevice.KompleksService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.http.MediaType.parseMediaType;
@@ -55,56 +56,33 @@ public class KompleksResource {
 
     @PostMapping(value = "upload")
     public ResponseEntity<Boolean> uploadAndDownload(@RequestParam("id") String id,
-                                                     @RequestParam("file") MultipartFile file,
-                                                     @RequestParam("file0") MultipartFile file0,
-                                                     @RequestParam("file1") MultipartFile file1) {
+                                                     @RequestParam("file") MultipartFile[] files) {
 
-        log.info(id);
-
-        String filetype = "";
-        String filetype0 = "";
-        String filetype1 = "";
         Kompleks kompleks = kompleksService.getById(id);
-        if (file != null) {
-            filetype = file.getOriginalFilename();
-            kompleks.setMainimagepath(kompleks.getId() + "-1." + filetype.substring(filetype.lastIndexOf(".") + 1));
-        }
-        if (file0 != null) {
-            filetype0 = file0.getOriginalFilename();
-            kompleks.setMainimagepathfirst(kompleks.getId() + "-2." + filetype0.substring(filetype0.lastIndexOf(".") + 1));
-        }
-        if (file1 != null) {
-            filetype1 = file1.getOriginalFilename();
-            kompleks.setMainimagepathsecond(kompleks.getId() + "-3." + filetype1.substring(filetype1.lastIndexOf(".") + 1));
-        }
-
-        kompleksService.save(kompleks);
-        boolean ans = false;
-
-        try {
-            if (!filetype.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file, kompleks.getMainimagepath(), "house"));
-                ans = true;
-            }
-            if (!filetype0.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file0, kompleks.getMainimagepathfirst(), "house"));
-                ans = true;
+        Arrays.asList(files).stream().forEach(file -> {
+            int i = Arrays.asList(files).indexOf(file);
+            String filetype = file.getOriginalFilename();
+            String path = "";
+            if (i == 0) {
+                assert filetype != null;
+                kompleks.setMainimagepath(kompleks.getId() + "-1." + filetype.substring(filetype.lastIndexOf(".") + 1));
+                path = kompleks.getMainimagepath();
+            } else if (i == 1) {
+                assert filetype != null;
+                kompleks.setMainimagepathfirst(kompleks.getId() + "-2." + filetype.substring(filetype.lastIndexOf(".") + 1));
+                path = kompleks.getMainimagepathfirst();
+            } else if (i == 2) {
+                assert filetype != null;
+                kompleks.setMainimagepathsecond(kompleks.getId() + "-3." + filetype.substring(filetype.lastIndexOf(".") + 1));
+                path = kompleks.getMainimagepathsecond();
             }
 
-            if (!filetype1.isEmpty()) {
-                ResponseEntity.ok(fileService.storeFile(file1, kompleks.getMainimagepathsecond(), "house"));
-                ans = true;
-            }
-            if (ans) {
-                kompleksService.save(kompleks);
+            kompleksService.save(kompleks);
+            ResponseEntity.ok(fileService.storeFile(file, path, "house"));
 
-                return ResponseEntity.ok().body(true);
-            }
+        });
 
-            return ResponseEntity.ok().body(false);
-        } catch (Exception e) {
-            return ResponseEntity.ok().body(false);
-        }
+        return ResponseEntity.ok().body(true);
     }
 
 
@@ -132,9 +110,21 @@ public class KompleksResource {
 
     }
 
-    @DeleteMapping(value = "removeimage")
-    public Boolean removeImage(@RequestParam("filename") String filename) {
-        return fileService.delete("house-" + filename);
+    @PutMapping(value = "removeimage")
+    public Boolean removeImage(@RequestParam("id") String id, @RequestParam("filename") String filename) {
+        boolean result = fileService.delete("house-" + filename);
+        if (result) {
+            Kompleks kompleks = kompleksService.getById(id);
+            if (kompleks.getMainimagepath().equals(filename)) {
+                kompleks.setMainimagepath("");
+            } else if (kompleks.getMainimagepathfirst().equals(filename)) {
+                kompleks.setMainimagepathfirst("");
+            } else if (kompleks.getMainimagepathsecond().equals(filename)) {
+                kompleks.setMainimagepathsecond("");
+            }
+            kompleksService.save(kompleks);
+        }
+        return result;
     }
 
 

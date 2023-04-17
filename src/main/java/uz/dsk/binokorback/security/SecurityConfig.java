@@ -76,11 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/imagecatalog/download/catalogs/*",
                 "/imagecatalog/*",
                 "/imagedata/*",
-                "/kompleks/*",
+                "/kompleks/upload/*",
                 "/make/*",
                 "/news/*",
                 "/job/*",
-                "/dom/*",
+                "/dom/save",
                 "/orderb/*",
                 "/ligthuser/*",
                 "/imagedata/*").hasAnyAuthority("ADMIN");

@@ -34,7 +34,7 @@ public class ImageDataResource {
     final FileService fileService;
 
     @PostMapping("save")
-    private ResponseEntity<ImageData> save(@RequestBody ImageData imageData, @RequestParam("dom_id") String dom_id) {
+    private ResponseEntity<ImageData> save(@RequestBody ImageData imageData, @RequestParam("id") String dom_id) {
         return ResponseEntity.ok().body(imageDataService.save(imageData, dom_id));
     }
 
