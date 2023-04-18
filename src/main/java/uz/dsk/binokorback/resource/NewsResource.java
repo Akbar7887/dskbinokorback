@@ -195,7 +195,7 @@ public class NewsResource {
         return result;
     }
 
-    @PutMapping(value = "removeimagenews")
+    @DeleteMapping(value = "removeimagenews")
     public Boolean removeImageNews(@RequestParam("id") String id) {
 
         ImageNews imageNews = imageNewsService.getById(Long.parseLong(id));
