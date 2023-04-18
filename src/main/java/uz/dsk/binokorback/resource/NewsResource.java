@@ -129,6 +129,7 @@ public class NewsResource {
             String filetype = file.getOriginalFilename();
             String path = "";
             ImageNews imageNews = new ImageNews();
+            assert filetype != null;
             imageNews.setImagepath(news.getImageNewsList().size() + "-"+news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1));
             path = news.getImageNewsList().size() + "-"+ news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1);
             news.addImage(imageNews);
