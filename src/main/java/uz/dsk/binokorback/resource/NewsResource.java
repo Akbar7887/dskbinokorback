@@ -130,8 +130,8 @@ public class NewsResource {
             String path = "";
             ImageNews imageNews = new ImageNews();
             assert filetype != null;
-            imageNews.setImagepath(news.getImageNewsList().size() + "-"+news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1) + ".png");
-            path = news.getImageNewsList().size() + "-"+ news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1)+".png";
+            imageNews.setImagepath(news.getImageNewsList().size()+1 + "-"+news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1));
+            path = news.getImageNewsList().size()+1 + "-"+ news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1);
             news.addImage(imageNews);
             newsService.save(news);
             ResponseEntity.ok(fileService.storeFile(file, path, "Imagenews"));
