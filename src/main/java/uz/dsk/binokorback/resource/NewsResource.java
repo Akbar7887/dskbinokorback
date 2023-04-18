@@ -202,7 +202,8 @@ public class NewsResource {
 
         boolean result = fileService.delete("Imagenews" + "-" + imageNews.getImagepath());
         if (result) {
-            imageNews.setImagepath(null);
+
+            imageNews.getNews().removeImage(imageNews);
             imageNewsService.delete(imageNews);
         }
 
