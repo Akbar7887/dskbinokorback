@@ -37,15 +37,13 @@ public class Catalog implements Serializable {
     @JsonManagedReference
     private List<ImageCatalog> imageCatalogs = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "make_id", referencedColumnName = "id")
     @JsonBackReference
     private Make make;
 
     @Enumerated(EnumType.STRING)
     private Active active = Active.ACTIVE;
-
-
 
     public void addImage(ImageCatalog imageCatalog){
         if (!this.imageCatalogs.contains(imageCatalog)) {

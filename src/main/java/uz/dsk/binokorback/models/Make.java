@@ -29,9 +29,12 @@ public class Make {
 
     @OneToMany(mappedBy = "make",
             fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+            cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Catalog> catalogs = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Active active = Active.ACTIVE;
 
 
     private String imagepath;
@@ -43,5 +46,19 @@ public class Make {
 
     public void setCatalogs(List<Catalog> catalogs) {
         this.catalogs = catalogs;
+    }
+
+    public void addCatalog(Catalog catalog){
+        if(!this.catalogs.contains(catalog)){
+            this.catalogs.add(catalog);
+            catalog.setMake(this);
+        }
+    }
+
+    public void removeCatalog(Catalog catalog){
+        if(this.catalogs.contains(catalog)){
+            this.catalogs.remove(catalog);
+            catalog.setMake(null);
+        }
     }
 }

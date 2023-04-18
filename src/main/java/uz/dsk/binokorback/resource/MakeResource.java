@@ -37,13 +37,18 @@ public class MakeResource {
 
 
     @GetMapping("get")
-    private ResponseEntity<List<Make>> getAll() {
-        return ResponseEntity.ok().body(makeService.getAll());
+    private List<Make> getAll() {
+        return makeService.getAll();
     }
 
     @PostMapping("save")
     private ResponseEntity<Make> save(@RequestBody Make make) {
         return ResponseEntity.ok().body(makeService.save(make));
+    }
+
+    @PutMapping("delete")
+    private void remove(@RequestParam("id") String id) {
+        makeService.remove(Long.parseLong(id));
     }
 
     @PostMapping(value = "upload")
