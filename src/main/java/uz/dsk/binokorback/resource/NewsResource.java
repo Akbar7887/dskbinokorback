@@ -123,7 +123,7 @@ public class NewsResource {
             @RequestParam(value = "id") String id,
             @RequestParam("file") MultipartFile[] files) throws IOException {
         News news = newsService.getById(id);
-        Arrays.asList(files).stream().forEach(file -> {
+        Arrays.asList(files).forEach(file -> {
             int i = Arrays.asList(files).indexOf(file);
             String filetype = file.getOriginalFilename();
             String path = "";
