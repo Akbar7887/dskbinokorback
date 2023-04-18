@@ -24,7 +24,7 @@ public class ImageNewsService {
     public ImageNews save(ImageNews imageNews){
         return imageNewsRepository.save(imageNews);
     }
-    public void deleteById(Long id ){
-        imageNewsRepository.deleteById(id);
+    public void delete(ImageNews imageNews ){
+        imageNewsRepository.delete(imageNews);
     }
 }
