@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.dsk.binokorback.fileupload.FileService;
 import uz.dsk.binokorback.models.ImageNews;
+import uz.dsk.binokorback.models.Kompleks;
 import uz.dsk.binokorback.models.News;
 import uz.dsk.binokorback.sevice.NewsService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -30,6 +32,8 @@ public class NewsResource {
     final NewsService newsService;
     @Autowired
     final FileService fileService;
+    @Autowired
+
 
 
     @GetMapping("get")
@@ -117,24 +121,22 @@ public class NewsResource {
     @PostMapping(value = "imagenewsupload")
     public ResponseEntity<?> imagenewsuploadFile(
             @RequestParam(value = "id") String id,
-            @RequestParam("file") MultipartFile file) throws IOException {
-
+            @RequestParam("file") MultipartFile[] files) throws IOException {
         News news = newsService.getById(id);
+        Arrays.asList(files).stream().forEach(file -> {
+            int i = Arrays.asList(files).indexOf(file);
+            String filetype = file.getOriginalFilename();
+            String path = "";
+            ImageNews imageNews = new ImageNews();
+            imageNews.setImagepath(news.getImageNewsList().size() + "-"+news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1));
+            path = news.getImageNewsList().size() + "-"+ news.getId() +"."+ filetype.substring(filetype.lastIndexOf(".") + 1);
+            news.addImage(imageNews);
+            newsService.save(news);
+            ResponseEntity.ok(fileService.storeFile(file, path, "Imagenews"));
 
-        String filename = fileService.getType(file);
+        });
 
-        ImageNews imageNews = new ImageNews();
-        imageNews.setImagepath(imageNews.getId() + filename);
-        news.addImage(imageNews);
-        newsService.save(news);
-
-
-        try {
-
-            return ResponseEntity.ok(fileService.storeFile(file, imageNews.getImagepath(), "imagenews"));
-        } catch (Exception e) {
-            return ResponseEntity.ok("Error while processing file");
-        }
+        return ResponseEntity.ok().body(true);
     }
 
     @PostMapping(value = "videoupload")
