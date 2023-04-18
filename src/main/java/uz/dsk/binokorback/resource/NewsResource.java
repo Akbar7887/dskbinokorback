@@ -97,7 +97,7 @@ public class NewsResource {
     @GetMapping("download/imagenews/{filename:.+}")
     public ResponseEntity<?> imagenewsdownloadFile(@PathVariable("filename") String filename, HttpServletRequest request) {
 
-        Resource fileResource = fileService.getFile(filename, "imagenews");
+        Resource fileResource = fileService.getFile(filename, "Imagenews");
 
         String contentType = null;
 
@@ -133,7 +133,6 @@ public class NewsResource {
             news.addImage(imageNews);
             newsService.save(news);
             ResponseEntity.ok(fileService.storeFile(file, path, "Imagenews"));
-
         });
 
         return ResponseEntity.ok().body(true);
