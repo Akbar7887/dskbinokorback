@@ -13,6 +13,7 @@ import uz.dsk.binokorback.fileupload.FileService;
 import uz.dsk.binokorback.models.ImageNews;
 import uz.dsk.binokorback.models.Kompleks;
 import uz.dsk.binokorback.models.News;
+import uz.dsk.binokorback.sevice.ImageNewsService;
 import uz.dsk.binokorback.sevice.NewsService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class NewsResource {
     @Autowired
     final FileService fileService;
     @Autowired
-
+    final ImageNewsService imageNewsService;
 
 
     @GetMapping("get")
@@ -177,8 +178,34 @@ public class NewsResource {
                 .contentType(parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResource.getFilename() + "\"")
                 .body(fileResource);
+    }
 
+    @PutMapping(value = "removenewsimage")
+    public Boolean removeImage(@RequestParam("id") String id) {
 
+            News news = newsService.getById(Long.parseLong(id));
+
+            boolean result = fileService.delete("news" + "-" + news.getImagepath());
+            if (result) {
+                news.setImagepath(null);
+                newsService.save(news);
+            }
+
+        return result;
+    }
+
+    @PutMapping(value = "removeimagenews")
+    public Boolean removeImageNews(@RequestParam("id") String id) {
+
+        ImageNews imageNews = imageNewsService.getById(Long.parseLong(id));
+
+        boolean result = fileService.delete("Imagenews" + "-" + imageNews.getImagepath());
+        if (result) {
+            imageNews.setImagepath(null);
+            imageNewsService.save(imageNews);
+        }
+
+        return result;
     }
 
 
