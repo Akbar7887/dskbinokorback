@@ -55,7 +55,7 @@ public class NewsResource {
     public ResponseEntity<?> uploadAndDownload(@RequestParam("id") String id,
                                                @RequestParam("file") MultipartFile file) {
 
-        News news = newsService.getById(id);
+        News news = newsService.getById(Long.parseLong(id));
         String filetype = file.getOriginalFilename();
         news.setImagepath(news.getId() + "." + filetype.substring(filetype.lastIndexOf(".") + 1));
         newsService.save(news);
@@ -122,7 +122,7 @@ public class NewsResource {
     public ResponseEntity<?> imagenewsuploadFile(
             @RequestParam(value = "id") String id,
             @RequestParam("file") MultipartFile[] files) throws IOException {
-        News news = newsService.getById(id);
+        News news = newsService.getById(Long.parseLong(id));
         Arrays.asList(files).forEach(file -> {
             int i = Arrays.asList(files).indexOf(file);
             String filetype = file.getOriginalFilename();
@@ -144,7 +144,7 @@ public class NewsResource {
             @RequestParam(value = "id") String id,
             @RequestParam("file") MultipartFile file) throws IOException {
 
-        News news = newsService.getById(id);
+        News news = newsService.getById(Long.parseLong(id));
 
         String filename = fileService.getType(file);
         news.setVideopath(news.getId() + filename);

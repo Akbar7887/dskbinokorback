@@ -41,14 +41,8 @@ public class NewsService {
         }
     }
 
-    public News getById(String id) {
-        Optional<News> newsOptional = newsRepo.findById(Long.parseLong(id));
-        if (newsOptional.isPresent()) {
-            News news = newsOptional.get();
-            return news;
-        } else {
-            return null;
-        }
+    public News getById(Long id) {
+       return newsRepo.findById(id).orElse(null);
     }
 
 
