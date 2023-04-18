@@ -21,8 +21,8 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("https://www.cab.dsk.uz");
-        config.addAllowedOrigin("https://cab.dsk.uz");
+        config.addAllowedOrigin("https://www.cab.dsk.uz/");
+        config.addAllowedOrigin("https://cab.dsk.uz/");
         //config.addAllowedOrigin("https://dsk-service.azurewebsites.net");
         config.addAllowedOrigin("http://localhost:49588");
         config.addAllowedOrigin("https://test.dsk.uz");
