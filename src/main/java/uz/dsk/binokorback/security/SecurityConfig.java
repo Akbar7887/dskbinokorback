@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/make/get", "/make/download/makes/*",
                 "/news/get", "/news/download/news/*",
                 "/news/download/imagenews/*",
-                "/news/**",
+                "/news/**","/news/download/newsvideo/*",
                 "/job/get",
                 "/dom/get",
                 "/orderb/**",
