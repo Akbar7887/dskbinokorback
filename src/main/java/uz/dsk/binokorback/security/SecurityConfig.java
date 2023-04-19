@@ -15,8 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import uz.dsk.binokorback.filter.CustomAuthenticationFilter;
 import uz.dsk.binokorback.filter.CustomAuthorizationFilter;
 
-import static org.springframework.http.HttpMethod.*;
-
 
 @Configuration
 @EnableWebSecurity
@@ -48,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/make/get", "/make/download/makes/*",
                 "/news/get", "/news/download/news/*",
                 "/news/download/imagenews/*",
-                "/news/**","/news/download/newsvideo/*",
+                "/news/get", "/news/download/newsvideo/*",
                 "/job/get",
                 "/dom/get",
                 "/orderb/**",
@@ -63,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/imagedata/**",
                 "/kompleks/**",
                 "/make/*", "/make/delete/*",
-                "/news/**",
+                "/news/removenewsimage", "/news/save", "/news/videoupload", "/news/imagenewsupload", "/news/remove", "/news/upload",
                 "/job/**",
                 "/dom/**",
                 "/orderb/**",
