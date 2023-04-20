@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/catalog/v1/*",
                 "/imagecatalog/v1/*",
                 "/imagecatalog/v1/*",
-                "/kompleks/v1/*",
+                "/kompleks/v1/**",
                 "/make/v1/*",
                 "/news/v1/*",
                 "/news/v1/*",
