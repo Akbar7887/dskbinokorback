@@ -17,7 +17,7 @@ public class LigthUserResource {
     @Autowired
     final LigthUserService ligthUserService;
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<LigthUser>> getAll(){
         return ResponseEntity.ok().body(ligthUserService.getAll());
     }

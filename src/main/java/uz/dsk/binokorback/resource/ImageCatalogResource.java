@@ -35,7 +35,7 @@ public class ImageCatalogResource {
     final ImageCatalogService imageCatalogService;
     final FileService fileService;
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<ImageCatalog>> getAll() {
         return ResponseEntity.ok().body(imageCatalogService.getAll());
     }
@@ -62,7 +62,7 @@ public class ImageCatalogResource {
     }
 
 
-    @GetMapping("download/catalogs/{filename:.+}")
+    @GetMapping("v1/download/catalogs/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) throws IOException {
 
         Resource fileResource = fileService.getFile(filename, "catalogs");

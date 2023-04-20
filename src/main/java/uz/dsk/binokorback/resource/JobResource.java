@@ -17,7 +17,7 @@ public class JobResource {
     @Autowired
     final JobService jobService;
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<Job>> getAllActive() {
         return ResponseEntity.ok().body(jobService.getAllActive());
     }

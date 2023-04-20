@@ -37,7 +37,7 @@ public class NewsResource {
     final ImageNewsService imageNewsService;
 
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<News>> getAll() {
         return ResponseEntity.ok().body(newsService.getAllActive());
     }
@@ -69,7 +69,7 @@ public class NewsResource {
     }
 
 
-    @GetMapping("download/news/{filename:.+}")
+    @GetMapping("v1/download/news/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename,
                                           HttpServletRequest request) throws IOException {
 
@@ -95,7 +95,7 @@ public class NewsResource {
     }
 
 
-    @GetMapping("download/imagenews/{filename:.+}")
+    @GetMapping("v1/download/imagenews/{filename:.+}")
     public ResponseEntity<?> imagenewsdownloadFile(@PathVariable("filename") String filename, HttpServletRequest request) {
 
         Resource fileResource = fileService.getFile(filename, "Imagenews");
@@ -158,7 +158,7 @@ public class NewsResource {
             return ResponseEntity.ok("Error while processing file");
         }
     }
-    @GetMapping("download/newsvideo/{filename:.+}")
+    @GetMapping("v1/download/newsvideo/{filename:.+}")
     public ResponseEntity<?> downloadVideoFile(@PathVariable("filename") String filename,
                                           HttpServletRequest request) throws IOException {
 

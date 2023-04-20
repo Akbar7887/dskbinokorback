@@ -36,7 +36,7 @@ public class MakeResource {
     final FileService fileService;
 
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private List<Make> getAll() {
         return makeService.getAll();
     }
@@ -68,7 +68,7 @@ public class MakeResource {
     }
 
 
-    @GetMapping("download/makes/{filename:.+}")
+    @GetMapping("v1/download/makes/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) throws IOException {
 
         Resource fileResource = fileService.getFile(filename, "makes");

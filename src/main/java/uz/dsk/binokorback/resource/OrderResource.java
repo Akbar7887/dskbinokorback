@@ -20,7 +20,7 @@ public class OrderResource {
     @Autowired
     final OrderService orderService;
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<Orderb>> get() {
         return ResponseEntity.ok().body(orderService.getallActive());
     }

@@ -33,7 +33,7 @@ public class MenegerResource {
     final MenegerService menegerService;
     final FileService fileService;
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<Meneger>> getAllActiver() {
         return ResponseEntity.ok().body(menegerService.getAllActive());
     }
@@ -60,7 +60,7 @@ public class MenegerResource {
     }
 
 
-    @GetMapping("download/meneger/{filename:.+}")
+    @GetMapping("v1/download/meneger/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename,
                                           HttpServletRequest request) throws IOException {
 

@@ -38,12 +38,12 @@ public class ImageDataResource {
         return ResponseEntity.ok().body(imageDataService.save(imageData, dom_id));
     }
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<ImageData>> getImageAll(@RequestParam(value = "id") String id) {
         return ResponseEntity.ok().body(imageDataService.getAllImage(id));
     }
 
-    @GetMapping("getlayout")
+    @GetMapping("v1/getlayout")
     private ResponseEntity<List<ImageData>> getImagelayout(@RequestParam(value = "id") String id) {
         return ResponseEntity.ok().body(imageDataService.getAllImageLayout(id));
     }
@@ -58,7 +58,7 @@ public class ImageDataResource {
         return ResponseEntity.ok().body(imageDataService.onlayout(Boolean.parseBoolean(layout), id));
     }
 
-    @GetMapping("getbykompleks")
+    @GetMapping("v1/getbykompleks")
     private ResponseEntity<List<ImageData>> getAllByKompleks(@RequestParam("id") String id) {
         return ResponseEntity.ok().body(imageDataService.findAllByKompleks(id));
     }
@@ -86,7 +86,7 @@ public class ImageDataResource {
     }
 
 
-    @GetMapping("download/images/{filename:.+}")
+    @GetMapping("v1/download/images/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename,
                                           HttpServletRequest request) throws IOException {
 

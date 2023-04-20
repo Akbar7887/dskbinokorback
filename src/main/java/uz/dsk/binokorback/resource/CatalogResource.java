@@ -18,7 +18,7 @@ public class CatalogResource {
     @Autowired
     final CatalogService catalogService;
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<Catalog>> getAllActive() {
         return ResponseEntity.ok().body(catalogService.getallActive());
     }

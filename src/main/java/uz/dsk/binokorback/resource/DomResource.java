@@ -15,7 +15,7 @@ public class DomResource {
 
     private final DomService domService;
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private List<Dom> getAllDobByIdKompleks(@RequestParam(value = "id") String id){
         return domService.getDomByIdKompleks(id);
     }

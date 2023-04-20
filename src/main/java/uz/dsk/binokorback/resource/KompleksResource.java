@@ -33,7 +33,7 @@ public class KompleksResource {
     //    private BlobContainerClient blobContainerClient;
 //    private BlobContainerClient blobContainerClient;
 
-    @GetMapping("get")
+    @GetMapping("v1/get")
     private ResponseEntity<List<Kompleks>> getAllActive() {
         return ResponseEntity.ok().body(kompleksService.getAllActive());
     }
@@ -86,7 +86,7 @@ public class KompleksResource {
     }
 
 
-    @GetMapping("download/house/{filename:.+}")
+    @GetMapping("v1/download/house/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) throws IOException {
 
         Resource fileResource = fileService.getFile(filename, "house");
