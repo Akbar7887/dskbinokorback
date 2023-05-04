@@ -36,7 +36,7 @@ public class News {
     @Enumerated(EnumType.STRING)
     private Active active = Active.ACTIVE;
 
-    private boolean showmain = false;
+    private boolean showmain;
 
     @OneToMany(mappedBy = "news",
             fetch = FetchType.EAGER,
