@@ -36,6 +36,7 @@ public class News {
     @Enumerated(EnumType.STRING)
     private Active active = Active.ACTIVE;
 
+    @Column(name = "showmain")
     private boolean showmain;
 
     @OneToMany(mappedBy = "news",
