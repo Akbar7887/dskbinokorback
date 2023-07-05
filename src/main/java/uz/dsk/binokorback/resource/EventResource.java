@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestBody("/event/")
+@RequestMapping("/event/")
 public class EventResource {
 
     @Autowired
