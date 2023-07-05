@@ -3,6 +3,8 @@ package uz.dsk.binokorback.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,7 +26,8 @@ public class Event {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date datecreate;
 
 }
