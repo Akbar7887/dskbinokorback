@@ -51,7 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/dom/v1/**",
                 "/orderb/v1/*8",
                 "/ligthuser/v1/**",
-                "/imagedata/v1/**"
+                "/imagedata/v1/**",
+                "/event/v1/**"
         ).permitAll();
         http.authorizeRequests().antMatchers("/api/users/**", "/login/**",
                 "/meneger/**",
