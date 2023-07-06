@@ -34,7 +34,7 @@ public class EventResource {
     }
 
     @GetMapping("v1/getone")
-    private Event getLastOne(){
+    private List<Event> getLastOne(){
         return eventService.getLastOne();
     }
 }
