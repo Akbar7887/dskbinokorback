@@ -7,4 +7,5 @@ import uz.dsk.binokorback.models.Event;
 @Repository
 public interface EventRepo extends JpaRepository<Event, Long> {
 
+    Event getFirstById();
 }

@@ -30,5 +30,8 @@ public class EventService {
         eventsRepo.deleteById(id);
     }
 
+    public Event getLastOne(){
+        return  eventsRepo.getFirstById();
+    }
 
 }

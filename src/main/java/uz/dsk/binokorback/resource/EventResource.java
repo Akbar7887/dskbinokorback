@@ -32,4 +32,9 @@ public class EventResource {
     private void delete(@RequestParam("id") String id){
         eventService.remove(Long.parseLong(id));
     }
+
+    @GetMapping("v1/getone")
+    private Event getLastOne(){
+        return eventService.getLastOne();
+    }
 }
