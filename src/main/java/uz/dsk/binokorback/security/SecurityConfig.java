@@ -67,7 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/dom/**",
                 "/orderb/**",
                 "/ligthuser/**",
-                "/imagedata/**").hasAnyAuthority("ADMIN");
+                "/imagedata/**",
+                "/event/**").hasAnyAuthority("ADMIN");
 //        http.authorizeRequests().antMatchers(POST,"/api/users/**", "/login/**",
 //                "/meneger/**",
 //                "/catalog/**",
