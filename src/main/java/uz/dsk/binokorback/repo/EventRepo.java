@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface EventRepo extends JpaRepository<Event, Long> {
 
-    @Query(value = "select TOP 1 * from Event  order by datecreate", nativeQuery = true)
+    @Query(value = "select e from Event e order by e.datecreate desc")
     List<Event> getFirstById();
 }
