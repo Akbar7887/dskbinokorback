@@ -18,20 +18,20 @@ public class EventService {
     private final EventRepo eventsRepo;
 
 
-    public Event save(Event event){
-        return  eventsRepo.save(event);
+    public Event save(Event event) {
+        return eventsRepo.save(event);
     }
 
-    public List<Event> getall(){
+    public List<Event> getall() {
         return eventsRepo.findAll();
     }
 
-    public void remove(Long id){
+    public void remove(Long id) {
         eventsRepo.deleteById(id);
     }
 
-    public Event getLastOne(){
-        return  eventsRepo.getFirstById();
+    public Event getLastOne() {
+        return eventsRepo.getFirstById().stream().findFirst().get();
     }
 
 }
