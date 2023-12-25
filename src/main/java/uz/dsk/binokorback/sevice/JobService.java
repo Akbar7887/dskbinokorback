@@ -34,12 +34,10 @@ public class JobService {
 
     public Job remove(String id) {
         Optional<Job> jobOptional = jobRepo.findById(Long.parseLong(id));
-        if (jobOptional.isPresent()) {
-            Job job = jobOptional.get();
-            job.setActive(Active.NOACTIVE);
-            return job;
-        }
-        return null;
+        Job job = jobOptional.orElse(null);
+
+        job.setActive(Active.NOACTIVE);
+        return job;
     }
 
     public Job removeItem(String id) {

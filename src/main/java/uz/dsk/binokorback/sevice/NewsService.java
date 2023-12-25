@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import uz.dsk.binokorback.models.Active;
 import uz.dsk.binokorback.models.News;
 import uz.dsk.binokorback.repo.NewsRepo;
@@ -32,17 +31,13 @@ public class NewsService {
     public News remote(String id) {
 
         Optional<News> optionalNews = newsRepo.findById(Long.parseLong(id));
-        if (optionalNews.isPresent()) {
-            News news = optionalNews.get();
-            news.setActive(Active.NOACTIVE);
-            return newsRepo.save(news);
-        } else {
-            return null;
-        }
+        News news = optionalNews.orElse(null);
+        news.setActive(Active.NOACTIVE);
+        return newsRepo.save(news);
     }
 
     public News getById(Long id) {
-       return newsRepo.findById(id).orElse(null);
+        return newsRepo.findById(id).orElse(null);
     }
 
 

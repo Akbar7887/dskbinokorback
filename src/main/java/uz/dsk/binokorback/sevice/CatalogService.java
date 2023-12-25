@@ -32,25 +32,18 @@ public class CatalogService {
     public Catalog postimage(String id, ImageCatalog imageCatalog) {
 
         Optional<Catalog> catalogOptional = catalogRepo.findById(Long.parseLong(id));
-        if (catalogOptional.isPresent()) {
-            Catalog catalog = catalogOptional.get();
-            catalog.addImage(imageCatalog);
-            return catalogRepo.save(catalog);
-        } else {
-            return null;
-        }
+        Catalog catalog = catalogOptional.orElse(null);
+        catalog.addImage(imageCatalog);
+        return catalogRepo.save(catalog);
     }
 
-    public Catalog remove(String id){
+    public Catalog remove(String id) {
         Optional<Catalog> catalogOptional = catalogRepo.findById(Long.parseLong(id));
 
-        if (catalogOptional.isPresent()) {
-            Catalog catalog = catalogOptional.get();
-            catalog.setActive(Active.NOACTIVE);
-            return catalogRepo.save(catalog);
-        } else {
-            return null;
-        }
+        Catalog catalog = catalogOptional.orElse(null);
+
+        catalog.setActive(Active.NOACTIVE);
+        return catalogRepo.save(catalog);
     }
 
 }

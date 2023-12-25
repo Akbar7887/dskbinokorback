@@ -39,12 +39,8 @@ public class MakeService {
 
     public Make getById(String id) {
         Optional<Make> optionalMake = makeRepo.findById(Long.parseLong(id));
-        if (optionalMake.isPresent()) {
-            Make make = optionalMake.get();
+            Make make = optionalMake.orElse(null);
             return make;
-        } else {
-            return null;
-        }
     }
 
 }

@@ -36,9 +36,7 @@ public class MenegerService {
 
         Optional<Meneger> menegerOptional = menegerRepo.findById(Long.parseLong(id));
         Meneger meneger = null;
-        if (menegerOptional.isPresent()) {
-            meneger = menegerOptional.get();
-        }
+        meneger = menegerOptional.orElse(null);
         return meneger;
     }
 

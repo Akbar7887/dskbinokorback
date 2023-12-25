@@ -30,36 +30,23 @@ public class KompleksService {
 
     public Kompleks remove(String id) {
         Optional<Kompleks> houseOptional = kompleksRepo.findById(Long.parseLong(id));
-        if (houseOptional.isPresent()) {
-            Kompleks kompleks = houseOptional.get();
-            kompleks.setActive(Active.NOACTIVE);
-            return kompleksRepo.save(kompleks);
+        Kompleks kompleks = houseOptional.orElse(null);
+        kompleks.setActive(Active.NOACTIVE);
+        return kompleksRepo.save(kompleks);
 
-        } else {
-            return null;
-        }
     }
 
     public Kompleks getById(String id) {
         Optional<Kompleks> houseOptional = kompleksRepo.findById(Long.parseLong(id));
-        if (houseOptional.isPresent()) {
-            Kompleks kompleks = houseOptional.get();
-            return kompleks;
-        } else {
-            return null;
-        }
+        Kompleks kompleks = houseOptional.orElse(null);
+        return kompleks;
     }
 
     public Dom removedom(String dom_id) {
 
         Optional<Dom> domOptional = domRepo.findById(Long.parseLong(dom_id));
-        if (domOptional.isPresent()) {
-            Dom dom = domOptional.get();
-            dom.setActive(Active.NOACTIVE);
-            return domRepo.save(dom);
-        } else {
-            return null;
-        }
-
+        Dom dom = domOptional.orElse(null);
+        dom.setActive(Active.NOACTIVE);
+        return domRepo.save(dom);
     }
 }
