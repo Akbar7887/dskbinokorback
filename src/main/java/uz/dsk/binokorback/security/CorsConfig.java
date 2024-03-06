@@ -22,13 +22,14 @@ public class CorsConfig {
         config.addAllowedOrigin("https://www.cab.dsk.uz/");
         config.addAllowedOrigin("https://cab.dsk.uz/");
         //config.addAllowedOrigin("https://dsk-service.azurewebsites.net");
-        config.addAllowedOrigin("http://localhost:49588/");
+//        config.addAllowedOrigin("http://localhost:49588/");
         config.addAllowedOrigin("https://test.dsk.uz");
         config.addAllowedOrigin("https://dsk.uz");
         config.addAllowedOrigin("https://www.dsk.uz");
-//        config.addAllowedOrigin("https://api.dsk.uz:8089");
-//        config.setAllowedOrigins(List.of("https://test.dsk.uz", "http://test.dsk.uz"));
-
+//        config.addAllowedOrigin("http://www.dsk.uz");
+//        config.addAllowedOrigin("http://dsk.uz");
+        config.addAllowedOrigin("http://localhost:3000");
+//
 //        config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
